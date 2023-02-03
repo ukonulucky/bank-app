@@ -1,0 +1,30 @@
+@media screen and (max-width: 639px) {
+  .userId::before {
+    content: "Order ID: ";
+    font-weight: bold;
+    color: black;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .customer::before {
+    content: "Customer: ";
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .address::before {
+    content: "Address: ";
+    font-weight: bold;
+    color: black;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .total::before {
+    content: "Total: ";
+    font-weight: bold;
+    color: black;
+  }
+}/*# sourceMappingURL=order.module.css.map */

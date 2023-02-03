@@ -1,0 +1,44 @@
+.userId{
+  @media screen and(max-width:639px) {
+    &::before{
+        content: "Order ID: ";
+        font-weight: bold;
+        color: black;
+    }
+  }
+}
+
+.customer{
+    @media screen and(max-width:639px) {
+        &::before{
+            content: "Customer: ";
+            font-weight: bold;
+        }
+      }
+
+}
+
+
+.address{
+    @media screen and(max-width:639px) {
+        &::before{
+            content: "Address: ";
+            font-weight: bold;
+            color: black;
+        }
+      }
+
+}
+
+
+.total{
+    @media screen and(max-width:639px) {
+        &::before{
+            content: "Total: ";
+            font-weight: bold;
+            color: black;
+        }
+      }
+
+}
+
