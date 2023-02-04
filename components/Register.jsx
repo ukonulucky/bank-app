@@ -1,41 +1,43 @@
+"use client"
 import axios from "axios"
-import React,{useState, useRef} from 'react'
-import {useNavigate, Link} from "react-router-dom"
-import "../styles/Register.css"
-import { registerUser } from "../redux/action"
-import { useDispatch } from "react-redux"
+import React, {useState} from 'react'
+import  Link  from "next/link"
+import {useRouter} from "next/router"
+import styles from "../styles/Register.module.css"
 
-function Register() {
+import { useDispatch, useSelector } from "react-redux"
+import { registerUser } from "../redux/userSlice"
+
+
+function Register(){
+    const state = useSelector(state => state.user)
     const [details, setDetails] = useState({
         fullName: "",
         email: "",
         phoneNumber:"",
-        address: "",
         password:""
     })
-    
+    const router = useRouter()
     const [error, setError] = useState("")
     const [network, networkError] = useState("")
-    const registerRef = useRef()
-    const navigate = useNavigate()
+    // const router = useRouter()
     const dispatch = useDispatch()
     const registerNewUser = async (e) => {
         e.preventDefault()
-        const { phoneNumber, password, address, fullName, email } = details
+        const { phoneNumber, password, fullName, email } = details
         
-        if (phoneNumber && password && address && fullName && email ) {
+        if (phoneNumber && password && fullName && email ) {
             try {
               
-            const data = {phoneNumber, password, address, fullName, email}
-              const res = await axios.post("http://localhost:5000/user/register", data) 
-                if (res.data && res.status === 201) {
-                    dispatch(registerUser(res.data))
-                    navigate("/")
+            const data = {phoneNumber, password, fullName, email}
+            console.log(data)
+               dispatch(registerUser(data))
+                if (state.userInfo) {
+                    router.push("/login")
                     alert("Registartion Successful")
                 } 
-                if (res.status === 202 && res.data.newErrors.phoneNumber) {
-                    const { newErrors } = res.data
-                    setError(newErrors.phoneNumber)
+                if (state.userInfo.status === 202 ) {
+                    setError("user allready registered")
                   }
                
             } catch (error) {
@@ -47,14 +49,11 @@ function Register() {
         }
     }
 
-  return (
-      <div className="register">
-          <div className="register__container">
+  return ( <div className={styles.register}>
+          <div className={styles.register__container}>
               <h1>Sign-Up</h1>
-              <form onSubmit={registerNewUser} ref={
-                  registerRef
-              }>
-                  <div className="list">
+              <form onSubmit={registerNewUser}>
+                  <div className={styles.list}>
                   <span>Full Name:</span>
                   <input type="text" required
                       name="fullName"
@@ -65,7 +64,7 @@ function Register() {
                       })
                   } />
                 </div>
-                  <div className="list">
+                  <div className={styles.list}>
                    <span>E-Mail:</span>
                   <input type="email" required
                       name="email"
@@ -76,20 +75,7 @@ function Register() {
                       })
                   } />
                 </div>
-                  <div className="list">
-                  <span>Address:</span>
-                  <input type="text" required
-                      name="address"
-                      value={details.address}
-                      onChange={
-                          e => setDetails({
-                          ...details, address: e.target.value
-                      })
-                  } />
-                  </div>
-                  <div className="list">
-                      
-                
+                  <div className={styles.list}>
                       <span>Phone Number:</span>
                    
                   <input type="number" required
@@ -101,9 +87,9 @@ function Register() {
                       })
                   } />
                   </div>
-                  {error && <p className="error">{error}</p>}   
+                  {error && <p className={styles.error}>{error}</p>}   
                  
-                  <div className="list">
+                  <div className={styles.list}>
                       
                   <span>Password:</span>
                   <input type="password"
@@ -113,17 +99,18 @@ function Register() {
                           ...details, password: e.target.value
                       })} />
                        </div>
-                <button className="login__register">Create An Account</button>
+                <button className={styles.login__register}>Create An Account</button>
               </form>
              
-              {network && <p className="error">{networkError}</p>}   
+              {network && <p className={styles.error}>{networkError}</p>}   
              
-              <p>Allready have an account?  <Link to="/login">Login</Link></p> 
+              <p>Allready have an account?  <Link href="/Login">Login</Link></p> 
           </div>
          
    </div>
+  
   )
 }
 
-export default Register
- 
+
+ export default Register

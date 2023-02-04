@@ -1,9 +1,9 @@
 import axios from "axios"
-import React,{useState, useRef} from 'react'
-import {useNavigate, Link} from "react-router-dom"
-import "../styles/Register.css"
+import React,{useState} from 'react'
+// import {useNavigate, Link} from "react-router-dom"
+import Link from "next/link"
+import styles from "../styles/Register.module.css"
 import { useDispatch } from "react-redux"
-import { loginUser } from "../redux/action"
 
 function Login() {
 // seting state of the user
@@ -14,8 +14,8 @@ function Login() {
    
   const [passwordError, setPasswordError] = useState("")
   const [phoneNumberError, setPhoneNumberError] = useState("")
-    const loginRef = useRef()
-    const navigate = useNavigate()
+    // const loginRef = useRef()
+    // const navigate = useNavigate()
   const loginNewUser = async (e) => {
     e.preventDefault()
     setPasswordError("")
@@ -29,8 +29,8 @@ function Login() {
             const res = await axios.post("http://localhost:5000/user/login", data) 
             if (res.data && res.status === 201) {
             
-              dispatch(loginUser({...res.data}))
-              navigate("/", {replace:true})
+              // dispatch(loginUser({...res.data}))
+              // navigate("/", {replace:true})
               alert("Login Successful")
             }
             if (res.status === 202) {
@@ -50,13 +50,11 @@ function Login() {
         }
     }
   return (
-      <div className="register">
-          <div className="register__container">
+      <div className={styles.register}>
+          <div className={styles.register__container}>
               <h1>Login</h1>
-              <form onSubmit={loginNewUser} ref={
-                  loginRef
-              }>
-                  <div className="list">
+              <form onSubmit={loginNewUser}>
+                  <div className={styles.register__list}>
             <span>Account Number:</span>
               
                   <input type="text" required
@@ -71,7 +69,7 @@ function Login() {
           </div>
           <p className="error">{phoneNumberError}</p>
               
-                  <div className="list">
+                  <div className={styles.list}>
                    <span>Password:</span>
                   <input type="password" required
                       name="password"
@@ -83,13 +81,13 @@ function Login() {
                   } /> 
            
           </div>
-          <p className="error">{ passwordError}</p>
+          <p className={styles.error}>{ passwordError}</p>
                 
-                <button className="login__register">Sign In</button>
+                <button className={styles.login__register}>Sign In</button>
               </form>
               
              
-              <p>Don't have an accout ? <Link to="/register">Register Now</Link></p> 
+              <p>Don't have an accout ? <Link href="/register">Register Now</Link></p> 
           </div>
          
    </div>
